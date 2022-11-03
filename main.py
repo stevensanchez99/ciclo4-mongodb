@@ -68,6 +68,11 @@ def eliminarCandidato(id):
     json=controllerCandidato.delete(id)
     return jsonify(json)
 
+@app.route("/candidatos/<string:id>/partido/<string:id_partido>",methods=['PUT'])
+def asignarPartidoACandidato(id, id_partido):
+    json=controllerCandidato.asignarPartido(id,id_partido)
+    return json
+
 
 
 #************************************************* MESA ****************************************************************
@@ -160,12 +165,14 @@ def getResultados():
     return jsonify(json)
 
 #Micro Servicio de los resultados
+""" 
 @app.route("/resultados",methods=['POST'])
 def crearResultado():
     print("Micro Servicio Creando los resultados de las votaciones....")
     data = request.get_json()
     json=controllerResultado.create(data)
     return jsonify(json)
+"""
 
 #Consultar resultados
 @app.route("/resultados/<string:id>",methods=['GET'])
@@ -174,6 +181,7 @@ def getResultado(id):
     json=controllerResultado.show(id)
     return jsonify(json)
 
+""" 
 #Actualizar resultados
 @app.route("/resultados/<string:id>",methods=['PUT'])
 def modificarResultado(id):
@@ -181,6 +189,7 @@ def modificarResultado(id):
     data = request.get_json()
     json=controllerResultado.update(id,data)
     return jsonify(json)
+"""
 
 #Eliminar Resultados
 @app.route("/resultados/<string:id>",methods=['DELETE'])
@@ -189,6 +198,19 @@ def eliminarResultado(id):
     json=controllerResultado.delete(id)
     return jsonify(json)
 
+@app.route("/resultados/mesa/<string:id_mesa>/candidato/<string:id_candidato>",methods=['POST'])
+def crearResultado(id_mesa, id_candidato):
+    print("Micro Servicio Creando los resultados de las votaciones....")
+    data = request.get_json()
+    json=controllerResultado.create(data,id_mesa,id_candidato)
+    return jsonify(json)
+
+@app.route("/resultados/<string:id_resultado>/mesa/<string:id_mesa>/candidato/<string:id_candidato>",methods=['PUT'])
+def modificarResultado(id_resultado,id_mesa,id_candidato):
+    print("Micro Servicio Actualizando los resultados de las votaciones: " )
+    data = request.get_json()
+    json=controllerResultado.update(id_resultado,data,id_mesa,id_candidato)
+    return jsonify(json)
 #*********************************************************************************************************************
 
 

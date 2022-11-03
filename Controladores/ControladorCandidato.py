@@ -1,14 +1,17 @@
 from Repositorios.RepositorioCandidato import RepositorioCandidato
+from Repositorios.RepositorioPartido import RepositorioPartido
 from Modelos.Candidato import Candidato
+from Modelos.Partido import Partido
 class ControladorCandidato():
     def __init__(self):
         print("*** Creando Controlador para el Candidato ***")
         self.repositorioCandidato=RepositorioCandidato()
+        self.repositorioPartido=RepositorioPartido()
 
     # Listado
     def index(self):
         print("La lista de candidatos se completo con éxito")
-        return  self.repositorioCandidato.findAll()
+        return self.repositorioCandidato.findAll()
 
     # Creacion de candidato
     def create(self, infoCandidato):
@@ -36,4 +39,13 @@ class ControladorCandidato():
     def show(self, id):
         print("Consultando... Candidato: ", id)
         elCandidato=Candidato(self.repositorioCandidato.findById(id))
-        return elCandidato.__dict__
+        return elCandidato.__dict__ #almacena
+
+    """
+    Relacion Candidato con partido
+    """
+    def asignarPartido(self, id, id_Partido):
+        candidatoActual = Candidato(self.repositorioCandidato.findById(id))
+        partidoActual = Partido(self.repositorioPartido.findById(id_Partido))
+        candidatoActual.partido = partidoActual
+        return self.repositorioCandidato.save(candidatoActual)

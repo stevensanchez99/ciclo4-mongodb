@@ -139,6 +139,7 @@ class InterfaceRepositorio(Generic[T]):
                 newList.append(item.__str__())
         if len(newList) == 0:
             newList = x
+
         return newList
 
     def transformRefs(self, item):
